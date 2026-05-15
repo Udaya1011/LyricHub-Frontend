@@ -28,18 +28,28 @@ if (Platform.OS === 'web') {
   const style = document.createElement('style');
   style.textContent = `
     html, body, #root {
+      height: 100%;
       height: 100dvh;
       width: 100%;
+      margin: 0;
+      padding: 0;
       overflow: hidden;
-      -webkit-overflow-scrolling: touch;
-      user-select: none;
-      -webkit-user-select: none;
+      position: fixed;
+      top: 0;
+      left: 0;
       background-color: #0a0a14;
-      touch-action: manipulation;
+      -webkit-overflow-scrolling: touch;
+      touch-action: none;
+    }
+    #root > div {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
     input, textarea {
       user-select: text;
       -webkit-user-select: text;
+      touch-action: auto;
     }
     * {
       -webkit-tap-highlight-color: transparent;

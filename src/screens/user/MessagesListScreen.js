@@ -145,7 +145,9 @@ const MessagesListScreen = ({ navigation }) => {
                 </View>
             ) : (
                 <FlatList
+                    style={{ flex: 1 }}
                     data={[
+
                         { type: 'header', title: 'Recent Chats' },
                         ...conversations.map(c => ({ ...c, type: 'conversation' })),
                         { type: 'header', title: 'All Friends' },

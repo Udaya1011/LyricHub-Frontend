@@ -179,10 +179,12 @@ const PostDetailScreen = ({ route, navigation }) => {
 
             <ScrollView 
                 ref={scrollViewRef}
+                style={{ flex: 1 }}
                 contentContainerStyle={styles.scrollContent}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
             >
+
                 <View style={styles.postCard}>
                     <View style={styles.authorInfo}>
                         {post.userId?.profilePic ? (
@@ -384,6 +386,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#0a0a14', borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)',
         zIndex: 100, elevation: 10,
     },
+
     backBtn: { padding: 5 },
     shareBtn: { padding: 5 },
     iconAction: { 
@@ -479,9 +482,11 @@ const styles = StyleSheet.create({
     emptyComments: { alignItems: 'center', paddingVertical: 40 },
     noCommentsText: { color: 'rgba(255,255,255,0.2)', fontSize: 14, marginTop: 10, textAlign: 'center' },
     footer: {
-        backgroundColor: 'rgba(26, 26, 46, 0.95)', paddingHorizontal: 15, paddingTop: 12,
+        backgroundColor: '#1a1a2e', paddingHorizontal: 15, paddingTop: 12,
         borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.05)',
+        zIndex: 100,
     },
+
     inputContainer: {
         flexDirection: 'row', alignItems: 'center', backgroundColor: '#0a0a14', borderRadius: 25,
         paddingHorizontal: 15, paddingVertical: 5, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)'

@@ -321,11 +321,13 @@ const HomeScreen = ({ navigation }) => {
             </View>
 
             <FlatList
+                style={{ flex: 1 }}
                 data={posts}
                 renderItem={renderPost}
                 keyExtractor={item => item._id}
                 contentContainerStyle={styles.listContent}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#a855f7" />}
+
                 ListEmptyComponent={
                     <View style={styles.emptyState}>
                         <Text style={styles.emptyText}>No lyrics shared yet.</Text>
@@ -506,7 +508,14 @@ const styles = StyleSheet.create({
 
     orb1: { position: 'absolute', width: 250, height: 250, borderRadius: 125, backgroundColor: 'rgba(168,85,247,0.1)', top: -50, right: -50 },
     orb2: { position: 'absolute', width: 200, height: 200, borderRadius: 100, backgroundColor: 'rgba(168,85,247,0.05)', bottom: 100, left: -50 },
-    header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingBottom: 15, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)' },
+    header: { 
+        flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', 
+        paddingHorizontal: 20, paddingBottom: 15, borderBottomWidth: 1, 
+        borderBottomColor: 'rgba(255,255,255,0.05)',
+        backgroundColor: '#0a0a14',
+        zIndex: 100,
+    },
+
     headerTitle: { fontSize: 28, fontWeight: 'bold', color: '#fff' },
     headerIcons: { flexDirection: 'row' },
     iconButton: { marginLeft: 15 },

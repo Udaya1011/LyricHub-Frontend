@@ -193,6 +193,7 @@ const ChatScreen = ({ route, navigation }) => {
                     </View>
                 ) : (
                     <FlatList
+                        style={{ flex: 1 }}
                         ref={flatListRef}
                         data={messages}
                         keyExtractor={(item) => item._id}
