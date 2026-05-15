@@ -33,9 +33,12 @@ const LoginScreen = ({ navigation }) => {
 
     useEffect(() => {
         // 1. PWA Install Check
-        if (window.deferredPrompt) setCanInstall(true);
-        const onPrompt = () => setCanInstall(true);
-        window.addEventListener('beforeinstallprompt', onPrompt);
+        if (Platform.OS === 'web') {
+            if (window.deferredPrompt) setCanInstall(true);
+            const onPrompt = () => setCanInstall(true);
+            window.addEventListener('beforeinstallprompt', onPrompt);
+        }
+
 
         // 2. Startup Animations
         Animated.sequence([
@@ -53,7 +56,12 @@ const LoginScreen = ({ navigation }) => {
             ])
         ).start();
 
-        return () => window.removeEventListener('beforeinstallprompt', onPrompt);
+        return () => {
+            if (Platform.OS === 'web') {
+                window.removeEventListener('beforeinstallprompt', onPrompt);
+            }
+        };
+
     }, []);
 
     const handleLogin = async () => {
