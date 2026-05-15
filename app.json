@@ -20,7 +20,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.udaya10.lyrichub"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -45,6 +46,11 @@
             }
           ]
         }
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1bed4830-4a94-4923-84fc-950d3b24455e"
       }
     }
   }

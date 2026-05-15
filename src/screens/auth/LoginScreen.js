@@ -29,8 +29,17 @@ const LoginScreen = ({ navigation }) => {
     const slideAnim = useRef(new Animated.Value(60)).current;
     const logoScale = useRef(new Animated.Value(0.7)).current;
     const pulse = useRef(new Animated.Value(1)).current;
+    const [canInstall, setCanInstall] = useState(false);
 
     useEffect(() => {
+        // Check if prompt is already captured
+        if (window.deferredPrompt) setCanInstall(true);
+
+        const onPrompt = () => setCanInstall(true);
+        window.addEventListener('beforeinstallprompt', onPrompt);
+        
+        return () => window.removeEventListener('beforeinstallprompt', onPrompt);
+    }, []);
         Animated.sequence([
             Animated.parallel([
                 Animated.timing(fadeAnim, { toValue: 1, duration: 700, useNativeDriver: true }),
@@ -62,15 +71,18 @@ const LoginScreen = ({ navigation }) => {
     const handleInstallApp = async () => {
         if (Platform.OS !== 'web') return;
 
-        if (window.deferredPrompt) {
-            window.deferredPrompt.prompt();
-            const { outcome } = await window.deferredPrompt.userChoice;
+        const promptEvent = window.deferredPrompt;
+        if (promptEvent) {
+            promptEvent.prompt();
+            const { outcome } = await promptEvent.userChoice;
             if (outcome === 'accepted') {
                 window.deferredPrompt = null;
+                setCanInstall(false);
             }
         } else {
+            // Fallback for iOS or if prompt not yet available
             alert(
-                "Install LyricHub\n\nTo install on iPhone:\n1. Tap Share\n2. Tap 'Add to Home Screen'"
+                "Install LyricHub App\n\n1. Tap the 'Share' icon in your browser\n2. Select 'Add to Home Screen'"
             );
         }
     };
@@ -184,12 +196,14 @@ const LoginScreen = ({ navigation }) => {
 
                     {Platform.OS === 'web' && (
                         <TouchableOpacity
-                            style={styles.installBtn}
+                            style={[styles.installBtn, !canInstall && { opacity: 0.8 }]}
                             onPress={handleInstallApp}
                             activeOpacity={0.7}
                         >
                             <Ionicons name="download-outline" size={16} color="#a78bfa" style={{ marginRight: 8 }} />
-                            <Text style={styles.installBtnText}>Download LyricHub App</Text>
+                            <Text style={styles.installBtnText}>
+                                {canInstall ? 'Download LyricHub App' : 'How to Install?'}
+                            </Text>
                         </TouchableOpacity>
                     )}
                 </Animated.View>
