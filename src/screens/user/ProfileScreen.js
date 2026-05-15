@@ -4,8 +4,10 @@ import { AuthContext } from '../../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import API from '../../api/api';
 import { formatTimeAgo } from '../../utils/dateUtils';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const ProfileScreen = ({ route, navigation }) => {
+    const insets = useSafeAreaInsets();
     const { userId } = route.params || {};
     const { user: currentUser, logout, refreshUser } = useContext(AuthContext);
     const [viewType, setViewType] = useState('grid'); // 'grid' or 'list'
@@ -146,7 +148,7 @@ const ProfileScreen = ({ route, navigation }) => {
             <View style={styles.orb1} />
             <View style={styles.orb2} />
 
-            <View style={styles.header}>
+            <View style={[styles.header, { paddingTop: Math.max(insets.top, 20) }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name="chevron-back" size={28} color="#fff" />
                 </TouchableOpacity>
@@ -338,7 +340,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 20,
-        paddingTop: 55,
         paddingBottom: 15,
     },
     headerTitle: {

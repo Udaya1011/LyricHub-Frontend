@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import API from '../../api/api';
 
 const CreatePostScreen = ({ navigation, route }) => {
+    const insets = useSafeAreaInsets();
     const editPost = route.params?.post;
     const [title, setTitle] = useState(editPost?.title || '');
     const [lyrics, setLyrics] = useState(editPost?.lyrics || '');
@@ -65,7 +67,7 @@ const CreatePostScreen = ({ navigation, route }) => {
             <View style={styles.orb1} />
             <View style={styles.orb2} />
 
-            <View style={styles.header}>
+            <View style={[styles.header, { paddingTop: Math.max(insets.top, 55) }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="close-outline" size={32} color="#fff" />
                 </TouchableOpacity>
@@ -136,7 +138,7 @@ const styles = StyleSheet.create({
     },
     header: {
         flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-        paddingHorizontal: 20, paddingTop: 55, paddingBottom: 20,
+        paddingHorizontal: 20, paddingBottom: 20,
         backgroundColor: 'rgba(26, 26, 46, 0.8)', borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)',
     },
     headerTitle: { fontSize: 22, fontWeight: 'bold', color: '#fff' },

@@ -19,6 +19,7 @@ import {
     KeyboardAvoidingView,
     Pressable
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import API from '../../api/api';
@@ -33,6 +34,7 @@ const modalKavProps = isWeb ? {} : {
 };
 
 const HomeScreen = ({ navigation }) => {
+    const insets = useSafeAreaInsets();
     const { user: contextUser, logout, refreshUser, optimisticFollow } = useContext(AuthContext);
     const [posts, setPosts] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
@@ -294,7 +296,7 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.orb1} />
             <View style={styles.orb2} />
 
-            <View style={styles.header}>
+            <View style={[styles.header, { paddingTop: Math.max(insets.top, 20) }]}>
                 <Text style={styles.headerTitle}>LyricHub</Text>
                 <View style={styles.headerIcons}>
                     <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Notifications')}>
@@ -484,7 +486,7 @@ const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#0a0a14' },
     orb1: { position: 'absolute', width: 250, height: 250, borderRadius: 125, backgroundColor: 'rgba(168,85,247,0.1)', top: -50, right: -50 },
     orb2: { position: 'absolute', width: 200, height: 200, borderRadius: 100, backgroundColor: 'rgba(168,85,247,0.05)', bottom: 100, left: -50 },
-    header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20, paddingTop: 60, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)' },
+    header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingBottom: 15, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)' },
     headerTitle: { fontSize: 28, fontWeight: 'bold', color: '#fff' },
     headerIcons: { flexDirection: 'row' },
     iconButton: { marginLeft: 15 },

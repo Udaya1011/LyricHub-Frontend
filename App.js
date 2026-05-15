@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthProvider, AuthContext } from './src/context/AuthContext';
@@ -18,6 +19,41 @@ import SecurityScreen from './src/screens/user/SecurityScreen';
 import { ActivityIndicator, View, LogBox, Platform, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as ScreenCapture from 'expo-screen-capture';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
+
+// Global Web Styles to make it feel like a Native App
+if (Platform.OS === 'web') {
+  // 1. Inject CSS for layout and disabling zoom
+  const style = document.createElement('style');
+  style.textContent = `
+    html, body, #root {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      -webkit-overflow-scrolling: touch;
+      user-select: none;
+      -webkit-user-select: none;
+      background-color: #0a0a14;
+      touch-action: manipulation;
+    }
+    input, textarea {
+      user-select: text;
+      -webkit-user-select: text;
+    }
+    * {
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
+    }
+  `;
+  document.head.append(style);
+
+  // 2. Inject Meta tag to disable zooming
+  const meta = document.createElement('meta');
+  meta.name = 'viewport';
+  meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+  document.head.append(meta);
+}
 
 // Ignore specific warnings that are internal to third-party libraries
 LogBox.ignoreLogs([
@@ -193,8 +229,11 @@ export default function App() {
   }, []);
 
   return (
-    <AuthProvider>
-      <Navigation />
-    </AuthProvider>
+    <SafeAreaProvider>
+      <StatusBar style="light" />
+      <AuthProvider>
+        <Navigation />
+      </AuthProvider>
+    </SafeAreaProvider>
   );
 }
