@@ -21,10 +21,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../../context/AuthContext';
 import API from '../../api/api';
 import { formatTimeAgo } from '../../utils/dateUtils';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { height } = Dimensions.get('window');
 
 const PostDetailScreen = ({ route, navigation }) => {
+    const insets = useSafeAreaInsets();
     const { postId } = route.params;
     const { user } = useContext(AuthContext);
     const [post, setPost] = useState(null);
@@ -151,7 +153,7 @@ const PostDetailScreen = ({ route, navigation }) => {
                 <View style={styles.orb1} />
                 <View style={styles.orb2} />
     
-                <View style={styles.header}>
+                <View style={[styles.header, { paddingTop: Platform.OS === 'web' ? 10 : Math.max(insets.top, 20) }]}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                         <Ionicons name="arrow-back" size={26} color="#fff" />
                     </TouchableOpacity>
@@ -271,7 +273,7 @@ const PostDetailScreen = ({ route, navigation }) => {
 
             <View style={[
                 styles.footer,
-                { paddingBottom: Platform.OS === 'ios' ? (isKeyboardOpen ? 15 : 30) : (isKeyboardOpen ? 0 : 30) }
+                { paddingBottom: Platform.OS === 'web' ? 10 : (Platform.OS === 'ios' ? (isKeyboardOpen ? 15 : 30) : (isKeyboardOpen ? 0 : 30)) }
             ]}>
                 <View style={styles.inputContainer}>
                     <TextInput
@@ -366,8 +368,8 @@ const styles = StyleSheet.create({
     },
     header: {
         flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-        paddingHorizontal: 15, paddingTop: 55, paddingBottom: 15,
-        backgroundColor: 'rgba(26, 26, 46, 0.98)', borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)',
+        paddingHorizontal: 15, paddingBottom: 15,
+        backgroundColor: '#0a0a14', borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)',
         zIndex: 100, elevation: 10,
     },
     backBtn: { padding: 5 },

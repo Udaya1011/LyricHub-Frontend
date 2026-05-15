@@ -150,16 +150,8 @@ const ChatScreen = ({ route, navigation }) => {
     };
 
     return (
-        <KeyboardAvoidingView 
-            style={styles.container} 
-            behavior="padding"
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-        >
-            {/* Background orbs */}
-            <View style={styles.orb1} />
-            <View style={styles.orb2} />
-
-            {/* Header */}
+        <>
+            {/* Header outside to keep it fixed */}
             <View style={[styles.header, { paddingTop: Platform.OS === 'web' ? 10 : Math.max(insets.top, 20) }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color="#fff" />
@@ -179,51 +171,56 @@ const ChatScreen = ({ route, navigation }) => {
                         </Text>
                     </View>
                 </View>
-                {/* Icons removed per user request */}
             </View>
 
-            {/* Messages */}
-            {loading ? (
-                <View style={styles.centered}>
-                    <ActivityIndicator color="#a855f7" />
-                </View>
-            ) : (
-                <FlatList
-                    ref={flatListRef}
-                    data={messages}
-                    keyExtractor={(item) => item._id}
-                    renderItem={renderMessage}
-                    contentContainerStyle={styles.listContent}
-                    onContentSizeChange={() => flatListRef.current?.scrollToEnd()}
-                />
-            )}
-
-            {/* Input */}
-            <View style={[
-                styles.inputArea, 
-                { paddingBottom: Platform.OS === 'ios' ? (isKeyboardOpen ? 10 : 30) : (isKeyboardOpen ? 0 : 30) }
-            ]}>
-                <TouchableOpacity style={styles.attachBtn}>
-                    <Ionicons name="add" size={28} color="#aaa" />
-                </TouchableOpacity>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Type a message..."
-                        placeholderTextColor="#666"
-                        value={text}
-                        onChangeText={setText}
-                        multiline
+            <KeyboardAvoidingView 
+                style={styles.flexContainer} 
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+            >
+                {/* Messages */}
+                {loading ? (
+                    <View style={styles.centered}>
+                        <ActivityIndicator color="#a855f7" />
+                    </View>
+                ) : (
+                    <FlatList
+                        ref={flatListRef}
+                        data={messages}
+                        keyExtractor={(item) => item._id}
+                        renderItem={renderMessage}
+                        contentContainerStyle={styles.listContent}
+                        onContentSizeChange={() => flatListRef.current?.scrollToEnd()}
                     />
-                    <TouchableOpacity style={styles.emojiBtn}>
-                        <Ionicons name="happy-outline" size={22} color="#aaa" />
+                )}
+
+                {/* Input */}
+                <View style={[
+                    styles.inputArea, 
+                    { paddingBottom: Platform.OS === 'web' ? 10 : (Platform.OS === 'ios' ? (isKeyboardOpen ? 10 : 30) : (isKeyboardOpen ? 10 : 30)) }
+                ]}>
+                    <TouchableOpacity style={styles.attachBtn}>
+                        <Ionicons name="add" size={28} color="#aaa" />
+                    </TouchableOpacity>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Type a message..."
+                            placeholderTextColor="#666"
+                            value={text}
+                            onChangeText={setText}
+                            multiline
+                        />
+                        <TouchableOpacity style={styles.emojiBtn}>
+                            <Ionicons name="happy-outline" size={22} color="#aaa" />
+                        </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity style={styles.sendBtn} onPress={handleSend}>
+                        <Ionicons name="send" size={20} color="#fff" />
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.sendBtn} onPress={handleSend}>
-                    <Ionicons name="send" size={20} color="#fff" />
-                </TouchableOpacity>
-            </View>
-        </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
+        </>
     );
 };
 
@@ -231,6 +228,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#0a0a14',
+    },
+    flexContainer: {
+        flex: 1,
     },
     orb1: {
         position: 'absolute', width: 220, height: 220, borderRadius: 110,
