@@ -14,11 +14,13 @@ import {
     Keyboard,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
 import API from '../../api/api';
 import { formatTimeAgo } from '../../utils/dateUtils';
 
 const ChatScreen = ({ route, navigation }) => {
+    const insets = useSafeAreaInsets();
     const { userId, userName, userPic } = route.params;
     const { user: currentUser } = useContext(AuthContext);
     const [messages, setMessages] = useState([]);
@@ -158,7 +160,7 @@ const ChatScreen = ({ route, navigation }) => {
             <View style={styles.orb2} />
 
             {/* Header */}
-            <View style={styles.header}>
+            <View style={[styles.header, { paddingTop: Platform.OS === 'web' ? 10 : Math.max(insets.top, 20) }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={24} color="#fff" />
                 </TouchableOpacity>
@@ -239,8 +241,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(168, 85, 247, 0.08)', bottom: 100, left: -40,
     },
     header: {
-        flexDirection: 'row', alignItems: 'center', paddingTop: 50, paddingBottom: 12, paddingHorizontal: 15,
-        backgroundColor: 'rgba(26, 26, 46, 0.8)', borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)',
+        flexDirection: 'row', alignItems: 'center', paddingBottom: 12, paddingHorizontal: 15,
+        backgroundColor: Platform.OS === 'web' ? 'rgba(10, 10, 20, 0.75)' : '#0a0a14', 
+        borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)',
+        ...(Platform.OS === 'web' ? { backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' } : {}),
     },
     backBtn: { padding: 5 },
     userInfo: { flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 10 },

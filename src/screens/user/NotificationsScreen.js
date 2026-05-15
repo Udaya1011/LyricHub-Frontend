@@ -7,12 +7,15 @@ import {
     TouchableOpacity, 
     Image, 
     ActivityIndicator,
-    RefreshControl
+    RefreshControl,
+    Platform
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import API from '../../api/api';
 
 const NotificationsScreen = ({ navigation }) => {
+    const insets = useSafeAreaInsets();
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
@@ -97,7 +100,7 @@ const NotificationsScreen = ({ navigation }) => {
             <View style={styles.orb1} />
             <View style={styles.orb2} />
 
-            <View style={styles.header}>
+            <View style={[styles.header, { paddingTop: Platform.OS === 'web' ? 10 : Math.max(insets.top, 20) }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="chevron-back" size={28} color="#fff" />
                 </TouchableOpacity>
@@ -136,8 +139,8 @@ const styles = StyleSheet.create({
     orb2: { position: 'absolute', width: 150, height: 150, borderRadius: 75, backgroundColor: 'rgba(168, 85, 247, 0.05)', bottom: 100, left: -40 },
     header: {
         flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-        paddingHorizontal: 20, paddingTop: 55, paddingBottom: 20,
-        backgroundColor: 'rgba(26, 26, 46, 0.8)', borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)',
+        paddingHorizontal: 20, paddingBottom: 20,
+        backgroundColor: '#0a0a14', borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)',
     },
     headerTitle: { fontSize: 24, fontWeight: 'bold', color: '#fff' },
     backBtn: { padding: 5 },

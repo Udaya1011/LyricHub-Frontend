@@ -28,7 +28,7 @@ if (Platform.OS === 'web') {
   const style = document.createElement('style');
   style.textContent = `
     html, body, #root {
-      height: 100%;
+      height: 100dvh;
       width: 100%;
       overflow: hidden;
       -webkit-overflow-scrolling: touch;
@@ -107,9 +107,9 @@ const MainTabs = () => {
           backgroundColor: '#0a0a14',
           borderTopWidth: 1,
           borderTopColor: 'rgba(255,255,255,0.08)',
-          height: 100,
-          paddingBottom: 35,
-          paddingTop: 10,
+          height: Platform.OS === 'web' ? 65 : 100,
+          paddingBottom: Platform.OS === 'web' ? 5 : 35,
+          paddingTop: Platform.OS === 'web' ? 12 : 10,
           overflow: 'visible',
         },
         tabBarActiveTintColor: '#a855f7',
@@ -178,10 +178,11 @@ const MainTabs = () => {
 
 const MyTheme = {
   ...DefaultTheme,
+  dark: true,
   colors: {
     ...DefaultTheme.colors,
     background: '#0a0a14',
-    card: '#1a1a2e',
+    card: '#0a0a14',
     text: '#ffffff',
     border: 'rgba(255,255,255,0.05)',
   },

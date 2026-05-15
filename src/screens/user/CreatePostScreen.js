@@ -67,7 +67,7 @@ const CreatePostScreen = ({ navigation, route }) => {
             <View style={styles.orb1} />
             <View style={styles.orb2} />
 
-            <View style={[styles.header, { paddingTop: Math.max(insets.top, 55) }]}>
+            <View style={[styles.header, { paddingTop: Platform.OS === 'web' ? 10 : Math.max(insets.top, 55) }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="close-outline" size={32} color="#fff" />
                 </TouchableOpacity>

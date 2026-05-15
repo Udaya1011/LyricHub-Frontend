@@ -148,7 +148,7 @@ const ProfileScreen = ({ route, navigation }) => {
             <View style={styles.orb1} />
             <View style={styles.orb2} />
 
-            <View style={[styles.header, { paddingTop: Math.max(insets.top, 20) }]}>
+            <View style={[styles.header, { paddingTop: Platform.OS === 'web' ? 10 : Math.max(insets.top, 20) }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name="chevron-back" size={28} color="#fff" />
                 </TouchableOpacity>

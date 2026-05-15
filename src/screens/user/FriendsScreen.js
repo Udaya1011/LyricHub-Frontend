@@ -11,14 +11,17 @@ import {
     Animated,
     RefreshControl,
     Dimensions,
+    Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
 import API from '../../api/api';
 
 const { width } = Dimensions.get('window');
 
 const FriendsScreen = ({ navigation }) => {
+    const insets = useSafeAreaInsets();
     const { user: currentUser, refreshUser } = useContext(AuthContext);
     const [friends, setFriends] = useState([]);
     const [filtered, setFiltered] = useState([]);
@@ -167,7 +170,7 @@ const FriendsScreen = ({ navigation }) => {
             <View style={styles.orb2} />
 
             {/* Header */}
-            <Animated.View style={[styles.header, { opacity: fadeAnim }]}>
+            <Animated.View style={[styles.header, { opacity: fadeAnim, paddingTop: Platform.OS === 'web' ? 10 : Math.max(insets.top, 20) }]}>
                 <View>
                     <Text style={styles.headerTitle}>Friends</Text>
                     <Text style={styles.headerCount}>

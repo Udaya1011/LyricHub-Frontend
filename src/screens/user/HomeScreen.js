@@ -296,7 +296,7 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.orb1} />
             <View style={styles.orb2} />
 
-            <View style={[styles.header, { paddingTop: Math.max(insets.top, 20) }]}>
+            <View style={[styles.header, { paddingTop: Platform.OS === 'web' ? 10 : Math.max(insets.top, 20) }]}>
                 <Text style={styles.headerTitle}>LyricHub</Text>
                 <View style={styles.headerIcons}>
                     <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Notifications')}>

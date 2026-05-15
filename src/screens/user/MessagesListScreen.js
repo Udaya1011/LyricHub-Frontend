@@ -9,13 +9,16 @@ import {
     RefreshControl,
     ActivityIndicator,
     Vibration,
+    Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
 import API from '../../api/api';
 import { formatTimeAgo } from '../../utils/dateUtils';
 
 const MessagesListScreen = ({ navigation }) => {
+    const insets = useSafeAreaInsets();
     const { user } = useContext(AuthContext);
     const [conversations, setConversations] = useState([]);
     const [friends, setFriends] = useState([]);
@@ -126,7 +129,7 @@ const MessagesListScreen = ({ navigation }) => {
             <View style={styles.orb1} />
             <View style={styles.orb2} />
 
-            <View style={styles.header}>
+            <View style={[styles.header, { paddingTop: Platform.OS === 'web' ? 10 : Math.max(insets.top, 20) }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="arrow-back" size={26} color="#fff" />
                 </TouchableOpacity>
@@ -222,9 +225,10 @@ const styles = StyleSheet.create({
         paddingTop: 55,
         paddingBottom: 15,
         paddingHorizontal: 20,
-        backgroundColor: '#1a1a2e',
+        backgroundColor: Platform.OS === 'web' ? 'rgba(10, 10, 20, 0.75)' : '#0a0a14',
         borderBottomWidth: 1,
-        borderBottomColor: '#252538',
+        borderBottomColor: 'rgba(255,255,255,0.05)',
+        ...(Platform.OS === 'web' ? { backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' } : {}),
     },
     backBtn: {
         padding: 5,

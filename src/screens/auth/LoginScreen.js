@@ -32,14 +32,12 @@ const LoginScreen = ({ navigation }) => {
     const [canInstall, setCanInstall] = useState(false);
 
     useEffect(() => {
-        // Check if prompt is already captured
+        // 1. PWA Install Check
         if (window.deferredPrompt) setCanInstall(true);
-
         const onPrompt = () => setCanInstall(true);
         window.addEventListener('beforeinstallprompt', onPrompt);
-        
-        return () => window.removeEventListener('beforeinstallprompt', onPrompt);
-    }, []);
+
+        // 2. Startup Animations
         Animated.sequence([
             Animated.parallel([
                 Animated.timing(fadeAnim, { toValue: 1, duration: 700, useNativeDriver: true }),
@@ -54,6 +52,8 @@ const LoginScreen = ({ navigation }) => {
                 Animated.timing(pulse, { toValue: 1, duration: 1800, useNativeDriver: true }),
             ])
         ).start();
+
+        return () => window.removeEventListener('beforeinstallprompt', onPrompt);
     }, []);
 
     const handleLogin = async () => {
