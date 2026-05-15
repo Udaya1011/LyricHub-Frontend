@@ -497,7 +497,13 @@ const HomeScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#0a0a14' },
+    container: { 
+        flex: 1, 
+        backgroundColor: '#0a0a14',
+        height: Platform.OS === 'web' ? '100dvh' : '100%',
+        overflow: 'hidden' 
+    },
+
     orb1: { position: 'absolute', width: 250, height: 250, borderRadius: 125, backgroundColor: 'rgba(168,85,247,0.1)', top: -50, right: -50 },
     orb2: { position: 'absolute', width: 200, height: 200, borderRadius: 100, backgroundColor: 'rgba(168,85,247,0.05)', bottom: 100, left: -50 },
     header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingBottom: 15, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)' },

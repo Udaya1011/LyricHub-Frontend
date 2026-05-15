@@ -146,9 +146,10 @@ const PostDetailScreen = ({ route, navigation }) => {
         <View style={styles.container}>
             <KeyboardAvoidingView 
                 style={{ flex: 1 }}
-                behavior="padding"
+                behavior={Platform.OS === 'web' ? null : 'padding'}
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
             >
+
                 {/* Background orbs */}
                 <View style={styles.orb1} />
                 <View style={styles.orb2} />
@@ -362,7 +363,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#0a0a14',
+        height: Platform.OS === 'web' ? '100dvh' : '100%',
+        overflow: 'hidden',
     },
+
     orb1: {
         position: 'absolute', width: 220, height: 220, borderRadius: 110,
         backgroundColor: 'rgba(168, 85, 247, 0.12)', top: -50, right: -60,

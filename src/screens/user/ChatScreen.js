@@ -157,34 +157,36 @@ const ChatScreen = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            {/* Header outside to keep it fixed */}
-            <View style={[styles.header, { paddingTop: Platform.OS === 'web' ? 10 : Math.max(insets.top, 20) }]}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-                    <Ionicons name="arrow-back" size={24} color="#fff" />
-                </TouchableOpacity>
-                <View style={styles.userInfo}>
-                    {userPic ? (
-                        <Image source={{ uri: userPic }} style={styles.avatar} />
-                    ) : (
-                        <View style={styles.placeholderAvatar}>
-                            <Text style={styles.avatarInitial}>{userName?.[0]}</Text>
-                        </View>
-                    )}
-                    <View>
-                        <Text style={styles.userName}>{userName}</Text>
-                        <Text style={[styles.statusText, { color: isOnline() ? '#34d399' : '#666' }]}>
-                            {isOnline() ? 'Online' : 'Offline'}
-                        </Text>
-                    </View>
-                </View>
-            </View>
-
             <KeyboardAvoidingView 
                 style={styles.flexContainer} 
-                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+                behavior={Platform.OS === 'web' ? null : (Platform.OS === 'ios' ? 'padding' : 'height')}
+                keyboardVerticalOffset={0}
             >
+
+                {/* Header inside to stay anchored */}
+                <View style={[styles.header, { paddingTop: Platform.OS === 'web' ? 10 : Math.max(insets.top, 20) }]}>
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+                        <Ionicons name="arrow-back" size={24} color="#fff" />
+                    </TouchableOpacity>
+                    <View style={styles.userInfo}>
+                        {userPic ? (
+                            <Image source={{ uri: userPic }} style={styles.avatar} />
+                        ) : (
+                            <View style={styles.placeholderAvatar}>
+                                <Text style={styles.avatarInitial}>{userName?.[0]}</Text>
+                            </View>
+                        )}
+                        <View>
+                            <Text style={styles.userName}>{userName}</Text>
+                            <Text style={[styles.statusText, { color: isOnline() ? '#34d399' : '#666' }]}>
+                                {isOnline() ? 'Online' : 'Offline'}
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+
                 {/* Messages */}
+
                 {loading ? (
                     <View style={styles.centered}>
                         <ActivityIndicator color="#a855f7" />
@@ -235,7 +237,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#0a0a14',
+        height: Platform.OS === 'web' ? '100dvh' : '100%',
+        overflow: 'hidden',
     },
+
     flexContainer: {
         flex: 1,
     },
@@ -249,10 +254,11 @@ const styles = StyleSheet.create({
     },
     header: {
         flexDirection: 'row', alignItems: 'center', paddingBottom: 12, paddingHorizontal: 15,
-        backgroundColor: Platform.OS === 'web' ? 'rgba(10, 10, 20, 0.75)' : '#0a0a14', 
+        backgroundColor: '#0a0a14', 
         borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)',
-        ...(Platform.OS === 'web' ? { backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' } : {}),
+        zIndex: 100,
     },
+
     backBtn: { padding: 5 },
     userInfo: { flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 10 },
     avatar: { width: 40, height: 40, borderRadius: 20, marginRight: 10 },

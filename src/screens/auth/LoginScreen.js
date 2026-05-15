@@ -89,9 +89,10 @@ const LoginScreen = ({ navigation }) => {
 
     return (
         <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            behavior={Platform.OS === 'web' ? null : (Platform.OS === 'ios' ? 'padding' : 'height')}
             style={styles.container}
         >
+
             {/* Background orbs */}
             <View style={styles.orb1} />
             <View style={styles.orb2} />
@@ -222,7 +223,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#0a0a14',
+        height: Platform.OS === 'web' ? '100dvh' : '100%',
+        overflow: 'hidden',
     },
+
     orb1: {
         position: 'absolute',
         width: 260,

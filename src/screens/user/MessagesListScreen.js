@@ -199,7 +199,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#0a0a14',
+        height: Platform.OS === 'web' ? '100dvh' : '100%',
+        overflow: 'hidden',
     },
+
     orb1: {
         position: 'absolute',
         width: 220,
@@ -222,14 +225,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingTop: 55,
         paddingBottom: 15,
         paddingHorizontal: 20,
-        backgroundColor: Platform.OS === 'web' ? 'rgba(10, 10, 20, 0.75)' : '#0a0a14',
+        backgroundColor: '#0a0a14',
         borderBottomWidth: 1,
         borderBottomColor: 'rgba(255,255,255,0.05)',
-        ...(Platform.OS === 'web' ? { backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' } : {}),
+        zIndex: 100,
     },
+
     backBtn: {
         padding: 5,
     },
