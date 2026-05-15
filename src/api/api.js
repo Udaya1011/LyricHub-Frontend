@@ -3,9 +3,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Platform } from 'react-native';
 
-const BASE_URL = Platform.OS === 'web' 
-    ? 'http://localhost:5000/api'
-    : 'http://10.170.198.119:5000/api';
+const BASE_URL = __DEV__
+    ? (Platform.OS === 'web' ? 'http://localhost:5000/api' : 'http://10.170.198.119:5000/api')
+    : 'https://lyrichub-backend-1.onrender.com/api';
 
 const API = axios.create({
     baseURL: BASE_URL,
