@@ -205,7 +205,9 @@ const HomeScreen = ({ navigation }) => {
                 postId: selectedPost._id,
                 title: selectedPost.title,
                 lyrics: selectedPost.lyrics,
+                imageUrl: selectedPost.imageUrl,
                 author: selectedPost.userId?.name || 'Unknown Writer'
+
             });
 
             await Promise.all(selectedFriends.map(friendId =>
@@ -269,10 +271,22 @@ const HomeScreen = ({ navigation }) => {
                     onPress={() => navigation.navigate('PostDetail', { postId: item._id })}
                 >
                     <Text style={styles.postTitle}>{item.title}</Text>
+                    
+                    {item.imageUrl ? (
+                        <View style={styles.postImageContainer}>
+                            <Image 
+                                source={{ uri: item.imageUrl }} 
+                                style={styles.postImage} 
+                                resizeMode="cover"
+                            />
+                        </View>
+                    ) : null}
+
                     <ScrollView style={{ maxHeight: 180 }} nestedScrollEnabled showsVerticalScrollIndicator>
                         <Text style={styles.lyrics}>{item.lyrics}</Text>
                     </ScrollView>
                 </TouchableOpacity>
+
 
                 <View style={styles.actions}>
                     <TouchableOpacity style={styles.actionButton} onPress={() => handleLike(item._id)}>
@@ -518,7 +532,20 @@ const styles = StyleSheet.create({
     followingButtonText: { color: '#666' },
     postBody: { marginBottom: 15 },
     postTitle: { color: '#fff', fontSize: 18, fontWeight: 'bold', marginBottom: 5 },
+    postImageContainer: {
+        width: '100%',
+        height: 250,
+        borderRadius: 16,
+        overflow: 'hidden',
+        marginVertical: 10,
+        backgroundColor: 'rgba(255,255,255,0.05)',
+    },
+    postImage: {
+        width: '100%',
+        height: '100%',
+    },
     lyrics: { color: '#bbb', fontStyle: 'italic' },
+
     actions: { flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#333', paddingTop: 10 },
     actionButton: { flexDirection: 'row', alignItems: 'center', marginRight: 20 },
     actionText: { color: '#666', marginLeft: 5 },

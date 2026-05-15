@@ -126,8 +126,14 @@ const ChatScreen = ({ route, navigation }) => {
                         <View style={styles.sharedPostCard}>
                             <Text style={styles.sharedPostTitle}>{postData.title}</Text>
                             <Text style={styles.sharedPostAuthor}>by {postData.author}</Text>
+                            
+                            {postData.imageUrl ? (
+                                <Image source={{ uri: postData.imageUrl }} style={styles.sharedPostImage} resizeMode="cover" />
+                            ) : null}
+
                             <Text style={styles.sharedPostLyrics} numberOfLines={3}>{postData.lyrics}</Text>
                         </View>
+
                         <View style={styles.sharedPostFooter}>
                             <Text style={styles.viewPostLink}>View Post →</Text>
                             <Text style={styles.timeText}>
@@ -150,7 +156,7 @@ const ChatScreen = ({ route, navigation }) => {
     };
 
     return (
-        <>
+        <View style={styles.container}>
             {/* Header outside to keep it fixed */}
             <View style={[styles.header, { paddingTop: Platform.OS === 'web' ? 10 : Math.max(insets.top, 20) }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
@@ -175,8 +181,8 @@ const ChatScreen = ({ route, navigation }) => {
 
             <KeyboardAvoidingView 
                 style={styles.flexContainer} 
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
             >
                 {/* Messages */}
                 {loading ? (
@@ -189,7 +195,7 @@ const ChatScreen = ({ route, navigation }) => {
                         data={messages}
                         keyExtractor={(item) => item._id}
                         renderItem={renderMessage}
-                        contentContainerStyle={styles.listContent}
+                        contentContainerStyle={[styles.listContent, { paddingBottom: insets.bottom + 20 }]}
                         onContentSizeChange={() => flatListRef.current?.scrollToEnd()}
                     />
                 )}
@@ -197,7 +203,7 @@ const ChatScreen = ({ route, navigation }) => {
                 {/* Input */}
                 <View style={[
                     styles.inputArea, 
-                    { paddingBottom: Platform.OS === 'web' ? 10 : (Platform.OS === 'ios' ? (isKeyboardOpen ? 10 : 30) : (isKeyboardOpen ? 10 : 30)) }
+                    { paddingBottom: Platform.OS === 'web' ? 10 : (isKeyboardOpen ? 10 : Math.max(insets.bottom, 10)) }
                 ]}>
                     <TouchableOpacity style={styles.attachBtn}>
                         <Ionicons name="add" size={28} color="#aaa" />
@@ -220,8 +226,9 @@ const ChatScreen = ({ route, navigation }) => {
                     </TouchableOpacity>
                 </View>
             </KeyboardAvoidingView>
-        </>
+        </View>
     );
+
 };
 
 const styles = StyleSheet.create({
@@ -273,7 +280,9 @@ const styles = StyleSheet.create({
     sharedPostCard: { backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 12, padding: 12, marginBottom: 8 },
     sharedPostTitle: { color: '#fff', fontSize: 16, fontWeight: 'bold', marginBottom: 2 },
     sharedPostAuthor: { color: 'rgba(255,255,255,0.6)', fontSize: 12, marginBottom: 8 },
+    sharedPostImage: { width: '100%', height: 120, borderRadius: 8, marginBottom: 8, backgroundColor: 'rgba(0,0,0,0.1)' },
     sharedPostLyrics: { color: 'rgba(255,255,255,0.8)', fontSize: 13, fontStyle: 'italic' },
+
     sharedPostFooter: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
     viewPostLink: { color: '#fff', fontSize: 12, fontWeight: 'bold' },
 

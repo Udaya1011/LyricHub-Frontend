@@ -203,7 +203,15 @@ const PostDetailScreen = ({ route, navigation }) => {
                     </View>
 
                     <Text style={styles.lyricsTitle}>{post.title}</Text>
+
+                    {post.imageUrl ? (
+                        <View style={styles.postImageContainer}>
+                            <Image source={{ uri: post.imageUrl }} style={styles.postImage} resizeMode="contain" />
+                        </View>
+                    ) : null}
+
                     <View style={styles.lyricsContainer}>
+
                         <ScrollView 
                             style={{ maxHeight: 350 }} 
                             nestedScrollEnabled={true} 
@@ -416,7 +424,20 @@ const styles = StyleSheet.create({
     lyricsTitle: {
         fontSize: 24, fontWeight: '800', color: '#fff', marginBottom: 15, textAlign: 'center',
     },
+    postImageContainer: {
+        width: '100%',
+        height: 300,
+        borderRadius: 20,
+        overflow: 'hidden',
+        marginBottom: 20,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+    },
+    postImage: {
+        width: '100%',
+        height: '100%',
+    },
     lyricsContainer: {
+
         backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 20, padding: 25, marginBottom: 25, position: 'relative', overflow: 'hidden'
     },
     lyricsBgIcon: { position: 'absolute', top: 10, right: 10 },
