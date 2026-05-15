@@ -54,10 +54,11 @@ if (Platform.OS === 'web') {
   meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
   document.head.append(meta);
   // 3. PWA Install Logic
-  window.addEventListener('beforeinstallprompt', (e) => {
+  const handleBeforeInstallPrompt = (e) => {
     e.preventDefault();
     window.deferredPrompt = e;
-  });
+  };
+  window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 }
 
 // Ignore specific warnings that are internal to third-party libraries
