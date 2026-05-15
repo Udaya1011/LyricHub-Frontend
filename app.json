@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "client",
-    "slug": "client",
+    "name": "LyricHub",
+    "slug": "lyrichub",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,7 +23,16 @@
       "edgeToEdgeEnabled": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "static",
+      "config": {
+        "pwa": {
+          "display": "standalone",
+          "background_color": "#0a0a14",
+          "theme_color": "#a855f7"
+        }
+      }
     }
   }
 }

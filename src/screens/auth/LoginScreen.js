@@ -59,6 +59,22 @@ const LoginScreen = ({ navigation }) => {
         }
     };
 
+    const handleInstallApp = async () => {
+        if (Platform.OS !== 'web') return;
+
+        if (window.deferredPrompt) {
+            window.deferredPrompt.prompt();
+            const { outcome } = await window.deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                window.deferredPrompt = null;
+            }
+        } else {
+            alert(
+                "Install LyricHub\n\nTo install on iPhone:\n1. Tap Share\n2. Tap 'Add to Home Screen'"
+            );
+        }
+    };
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -165,6 +181,17 @@ const LoginScreen = ({ navigation }) => {
                         <Text style={styles.registerHighlight}>Create Account</Text>
                         <Ionicons name="sparkles-outline" size={14} color="#a78bfa" style={{ marginLeft: 4 }} />
                     </TouchableOpacity>
+
+                    {Platform.OS === 'web' && (
+                        <TouchableOpacity
+                            style={styles.installBtn}
+                            onPress={handleInstallApp}
+                            activeOpacity={0.7}
+                        >
+                            <Ionicons name="download-outline" size={16} color="#a78bfa" style={{ marginRight: 8 }} />
+                            <Text style={styles.installBtnText}>Download LyricHub App</Text>
+                        </TouchableOpacity>
+                    )}
                 </Animated.View>
 
                 {/* Bottom Note */}
@@ -363,6 +390,22 @@ const styles = StyleSheet.create({
     bottomNoteText: {
         color: 'rgba(255,255,255,0.22)',
         fontSize: 12,
+    },
+    installBtn: {
+        marginTop: 25,
+        paddingVertical: 12,
+        borderRadius: 12,
+        backgroundColor: 'rgba(139, 92, 246, 0.08)',
+        borderWidth: 1,
+        borderColor: 'rgba(139, 92, 246, 0.25)',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    installBtnText: {
+        color: '#a78bfa',
+        fontSize: 14,
+        fontWeight: '600',
     },
 });
 

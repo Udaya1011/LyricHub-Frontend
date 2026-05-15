@@ -53,6 +53,11 @@ if (Platform.OS === 'web') {
   meta.name = 'viewport';
   meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
   document.head.append(meta);
+  // 3. PWA Install Logic
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    window.deferredPrompt = e;
+  });
 }
 
 // Ignore specific warnings that are internal to third-party libraries
